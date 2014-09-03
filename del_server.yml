@@ -1,0 +1,40 @@
+---
+
+ - hosts: 127.0.0.1
+   connection: local
+   vars_files:
+    - vars/credentials.yml
+   gather_facts: False
+   tasks:
+
+    - name: delete server
+      nova_compute:
+        state: absent
+        auth_url: "{{ auth_url }}"
+        login_username: "{{ login_username }}"
+        login_password: "{{ login_password }}"
+        login_tenant_name: "{{ login_tenant_name }}"
+        name: "{{ servername }}"
+        image_id: b6f54599-47e2-43b6-aa02-880a93a5b5a1
+        #key_name: Macbook-local
+        wait_for: 200
+        flavor_id: 101
+        nics:
+          - net-id: 472dd2d5-e163-4d71-899c-f0c7a10ad10d
+      register: result
+
+ - hosts: loadbalancer
+   gather_facts: False
+   tasks:
+
+    - name: set haproxy template with new server
+      template:
+        src=haproxy.cfg.j2
+        dest=/etc/haproxy/haproxy.cfg
+      register: result
+
+    - name: reload haproxy
+      service:
+        name=haproxy
+        state=reloaded
+      when: result|changed
