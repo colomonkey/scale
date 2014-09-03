@@ -9,7 +9,7 @@ counter=0  # start with empty counter
 
 while true
 do
-    queue=$(curl -u admin:hadmin "http://213.187.241.159:8080/stats/;csv" 2>/dev/null | grep "^$1,$2" |cut -d, -f 3)
+    queue=$(curl -u admin:hadmin "http://0.0.0.0:8808/stats/;csv" 2>/dev/null | grep "^$1,$2" |cut -d, -f 3)
     if [ -z "$queue" ]; then
             echo "ERROR: Please HAproxy fix URL"
             exit 1
