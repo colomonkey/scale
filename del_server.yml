@@ -15,12 +15,12 @@
         login_password: "{{ login_password }}"
         login_tenant_name: "{{ login_tenant_name }}"
         name: "{{ servername }}"
-        image_id: b6f54599-47e2-43b6-aa02-880a93a5b5a1
+        image_id: 
         #key_name: Macbook-local
         wait_for: 200
         flavor_id: 101
         nics:
-          - net-id: 472dd2d5-e163-4d71-899c-f0c7a10ad10d
+          - net-id: 
       register: result
 
  - hosts: loadbalancer
