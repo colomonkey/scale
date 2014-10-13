@@ -34,7 +34,7 @@ frontend http-in
 	default_backend webfarm
 
 backend webfarm
-	server std-web-1 10.142.185.5:80 maxconn 10 check
+	server std-web-1 10.0.0.20:80 maxconn 10 check
 {% for host in groups['webfarm'] %}
         server {{ host }} {{ hostvars[host]['ansible_ssh_host'] }}:80 maxconn 10 check
 {% endfor %}
