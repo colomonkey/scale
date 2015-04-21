@@ -1,20 +1,21 @@
 #!/usr/bin/env bash
 # Get haproxy queue and call add or del server playbook.
-# Usage: ./<scriptname> <webfarm> <BACKEND>
+# Usage: ./<scriptname> <webfarm> <BACKEND> <maxqueu> <maxserv>
 
-# !Todo: No user input validation
-maxqueu=$1 # max queue size
-maxserv=4  # max servers
+webfarm=$1  # Name of haproxy webserver group
+backend=$2  # Name of haproxy webserver group statisctics row
+maxqueu=$3 # max queue size
+maxserv=$4  # max servers
+
+# Startup message
+echo "- Scaling starts when more then $1 requests are waiting in the queue"
+echo "- Scaling to the maximum of $maxserv servers"
+echo "- When there are no more requests waiting, scale down to minimum of one server"
+echo ""
+
+#default settings 
 currque=0  # current servers
 counter=0  # start with empty counter
-
-webfarm="webfarm"  # Name of haproxy webserver group
-backend="BACKEND"  # Name of haproxy webserver group statisctics row
-
-echo "- Scaling starts when more then $1 requests are waiting in the queue"
-echo "- Scaling to the maximum of 4 servers"
-echo "- When there are no more requests waiting, scale down to minimun of one server"
-echo ""
 
 while true
 do
